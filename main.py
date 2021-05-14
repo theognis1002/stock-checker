@@ -33,13 +33,13 @@ def get_sp500_stocks():
 
 def get_gurufocus_stats(stock_data):
     """grab stock's return on capital, earnings yield, and misc. figures"""
-    logger.info(f"    [+] ${stock_data['stock']}")
-
     res = requests.get(f"https://www.gurufocus.com/stock/{stock_data['stock']}/summary")
     soup = BeautifulSoup(res.text, "lxml")
 
     # return on capital
-    roc_data_node = soup.find("td", text=re.compile("ROC (Joel Greenblatt)"))
+    roc_data_node = soup.find(
+        lambda tag: tag.name == "td" and "ROC (Joel Greenblatt)" in tag.text
+    )
     if roc_data_node:
         return_on_capital = float(roc_data_node.findNext("td").text.strip())
         stock_data["return_on_capital"] = return_on_capital
@@ -55,6 +55,11 @@ def get_gurufocus_stats(stock_data):
     if pe_data_node:
         pe_ratio = float(pe_data_node.findNext("td").text.strip())
         stock_data["pe_ratio"] = pe_ratio
+
+    logger.info(
+        f"    [+] ${stock_data['stock']} -- P/E: {stock_data.get('pe_ratio')} - EY: {stock_data.get('earnings_yield')} - ROC: {stock_data.get('return_on_capital')}"
+    )
+
     return stock_data
 
 
@@ -77,9 +82,6 @@ def main():
     )
 
     csv_filename = f"{datetime.utcnow().strftime('%m-%d-%Y')}.csv"
-    # with open(f"sp500_{datetime.utcnow().strftime('%m-%d-%Y')}.json", "w") as outfile:
-    #     json.dump(stock_results, outfile)
-
     df = pd.DataFrame.from_records(stock_results)
     df.to_csv(csv_filename)
 
@@ -92,3 +94,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    # stock_data = {"stock": "AAPL"}
+    # get_gurufocus_stats(stock_data)

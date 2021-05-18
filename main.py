@@ -81,11 +81,20 @@ def main():
         results, key=lambda k: k.get("earnings_yield", 9999), reverse=True
     )
 
+    # convert unfiltered dataframe to csv
     csv_filename = f"{datetime.utcnow().strftime('%m-%d-%Y')}.csv"
     df = pd.DataFrame.from_records(stock_results)
-    df.to_csv(csv_filename)
+    csv_df = df.copy()
+    csv_df.to_csv(csv_filename)
+
+    # filter values
+    df = df.dropna(subset=["return_on_capital"])
+    df = df.dropna(subset=["pe_ratio"])
+    df = df.loc[df["earnings_yield"] >= 4]
 
     logging.info(df.head())
+
+    # send email notification
     dispatch_email(df, csv_filename)
 
     end_time = time.time()
@@ -94,5 +103,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    # stock_data = {"stock": "AAPL"}
-    # get_gurufocus_stats(stock_data)

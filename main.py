@@ -1,6 +1,7 @@
 import concurrent.futures
 import json
 import logging
+import os
 import re
 import time
 from datetime import datetime
@@ -96,6 +97,9 @@ def main():
 
     # send email notification
     dispatch_email(df, csv_filename)
+
+    # remove csv
+    os.remove(csv_filename)
 
     end_time = time.time()
     logging.info(f"Took {round(end_time-start_time, 3)} secs to execute.")

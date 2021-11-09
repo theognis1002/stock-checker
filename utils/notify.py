@@ -62,9 +62,7 @@ def dispatch_email(dataframe, filename):
         record = MIMEBase("application", "octet-stream")
         record.set_payload(fp.read())
         encoders.encode_base64(record)
-        record.add_header(
-            "Content-Disposition", "attachment", filename=os.path.basename(filename)
-        )
+        record.add_header("Content-Disposition", "attachment", filename=os.path.basename(filename))
         msg.attach(record)
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:

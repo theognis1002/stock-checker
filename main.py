@@ -1,5 +1,4 @@
 import concurrent.futures
-import json
 import logging
 import os
 import re
@@ -38,9 +37,7 @@ def get_gurufocus_stats(stock_data):
     soup = BeautifulSoup(res.text, "lxml")
 
     # return on capital
-    roc_data_node = soup.find(
-        lambda tag: tag.name == "td" and "ROC (Joel Greenblatt)" in tag.text
-    )
+    roc_data_node = soup.find(lambda tag: tag.name == "td" and "ROC (Joel Greenblatt)" in tag.text)
     if roc_data_node:
         return_on_capital = float(roc_data_node.findNext("td").text.strip())
         stock_data["return_on_capital"] = return_on_capital
@@ -78,9 +75,7 @@ def main():
         for future in concurrent.futures.as_completed(futures):
             results.append(future.result())
 
-    stock_results = sorted(
-        results, key=lambda k: k.get("earnings_yield", 9999), reverse=True
-    )
+    stock_results = sorted(results, key=lambda k: k.get("earnings_yield", 9999), reverse=True)
 
     # convert unfiltered dataframe to csv
     csv_filename = f"{datetime.utcnow().strftime('%m-%d-%Y')}.csv"

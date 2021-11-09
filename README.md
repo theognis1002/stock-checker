@@ -26,8 +26,8 @@ The script gets the current S&P500 stocks and collects the above figures for eac
 -   [ ] Estimated Valuation
 
 #### S&P500 Moving Average
--   [ ] S&P500 50-day moving average
--   [ ] S&P500 current share price 
+-   [x] S&P500 50-day moving average
+-   [x] S&P500 current share price 
 ---
 
 ### Technologies Used

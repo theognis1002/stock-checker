@@ -9,7 +9,7 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 
-from utils.notify import dispatch_email
+from utils.notify import SendEmail
 
 from .interest_rates import get_hurdle_rate
 
@@ -101,7 +101,8 @@ def sp500():
     logging.info(df.head())
 
     # send email notification
-    dispatch_email(df, csv_filename)
+    email = SendEmail()
+    email.dispatch_email_w_dataframe(df, csv_filename)
 
     # remove csv
     os.remove(csv_filename)

@@ -13,17 +13,21 @@ The script gets the current S&P500 stocks and collects the above figures for eac
 
 ---
 
-### TODO
+### TODO LIST
 
+#### S&P500 Crawler
 -   [x] Return on Tangible Capital
 -   [x] Earnings Yield
 -   [x] P/E (financials stocks)
 -   [ ] Share price
 -   [ ] Return on Equity
--   [ ] Debt / Equity
--   [ ] 10YR Interest Rate
+-   [x] Debt / Equity
+-   [x] 10YR Interest Rate
 -   [ ] Estimated Valuation
 
+#### S&P500 Moving Average
+-   [ ] S&P500 50-day moving average
+-   [ ] S&P500 current share price 
 ---
 
 ### Technologies Used

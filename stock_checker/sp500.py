@@ -53,7 +53,10 @@ def get_gurufocus_stats(stock_data):
     # debt/equity
     de_data_node = soup.find("td", text=re.compile("Debt-to-Equity"))
     if de_data_node:
-        debt_to_equity = float(de_data_node.findNext("td").text.strip())
+        try:
+            debt_to_equity = float(de_data_node.findNext("td").text.strip())
+        except ValueError:
+            debt_to_equity = None
         stock_data["debt_to_equity"] = debt_to_equity
 
     # p/e ratio

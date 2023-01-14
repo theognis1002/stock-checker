@@ -8,6 +8,7 @@ from datetime import datetime
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from decouple import config
 
 from utils.notify import SendEmail
 
@@ -15,6 +16,7 @@ from .interest_rates import get_hurdle_rate
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("stock-checker")
+MAX_EARNINGS_YIELD = config("MAX_EARNINGS_YIELD", default=10, cast=int)
 
 
 def get_sp500_stocks():
@@ -77,7 +79,6 @@ def sp500_crawler():
     start_time = time.time()
     stocks = get_sp500_stocks()
     hurdle_rate = get_hurdle_rate()
-    MAX_EARNINGS_YIELD = 10
 
     with concurrent.futures.ThreadPoolExecutor(max_workers=30) as executor:
         futures = []

@@ -11,4 +11,4 @@ def get_10yr_treasury_rate():
 
 def get_hurdle_rate():
     treasury_rate = get_10yr_treasury_rate()
-    return max(treasury_rate * 1.5, 4.0)
+    return max(treasury_rate * 1.5, 5.0)

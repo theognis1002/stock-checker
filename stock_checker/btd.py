@@ -3,13 +3,14 @@ from datetime import datetime
 
 import requests
 from bs4 import BeautifulSoup
+from decouple import config
 
 from utils.notify import SendEmail
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("stock-checker")
 
-PERCENT_CHANGE_THRESHOLD = 5.0
+PERCENT_CHANGE_THRESHOLD = config("PERCENT_CHANGE_THRESHOLD", default=5.0, cast=float)
 URL = "https://www.marketwatch.com/investing/fund/spy/download-data"
 
 

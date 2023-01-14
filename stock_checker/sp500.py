@@ -72,7 +72,7 @@ def get_gurufocus_stats(stock_data):
     return stock_data
 
 
-def sp500():
+def sp500_crawler():
     """script entrypoint"""
     start_time = time.time()
     stocks = get_sp500_stocks()

@@ -1,4 +1,4 @@
-from stock_checker import sp500
+from stock_checker import sp500_crawler
 
 if __name__ == "__main__":
-    sp500()
+    sp500_crawler()

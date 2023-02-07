@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import concurrent.futures
 import logging
 import os
@@ -19,8 +21,12 @@ logger = logging.getLogger("stock-checker")
 MAX_EARNINGS_YIELD = config("MAX_EARNINGS_YIELD", default=10, cast=int)
 
 
-def get_sp500_stocks():
-    """grab all current stocks from S&P500 from wikipedia"""
+def get_sp500_stocks() -> list[str]:
+    """Retrieve all current stocks from S&P500 from wikipedia
+
+    Returns:
+        list[str]: current S&P500 stock tickers
+    """
     logger.info("Collecting S&P500 stock tickers...")
 
     res = requests.get("https://en.wikipedia.org/wiki/List_of_S%26P_500_companies")
@@ -35,8 +41,16 @@ def get_sp500_stocks():
     return stocks
 
 
-def get_gurufocus_stats(stock_data):
-    """grab stock's return on capital, earnings yield, and misc. figures"""
+def get_gurufocus_stats(stock_data: dict) -> dict:
+    """Retrieve stock's return on capital, earnings yield, and misc. figures
+
+    Args:
+        stock_data (dict): dict of stock data
+
+    Returns:
+        dict: stock data with additional figures
+
+    """
     res = requests.get(f"https://www.gurufocus.com/stock/{stock_data['stock']}/summary")
     soup = BeautifulSoup(res.text, "lxml")
 
@@ -74,8 +88,12 @@ def get_gurufocus_stats(stock_data):
     return stock_data
 
 
-def sp500_crawler():
-    """script entrypoint"""
+def sp500() -> int:
+    """Stock Checker Entrypoint function
+
+    Returns:
+        int: 0 indicating successful exit.
+    """
     start_time = time.time()
     stocks = get_sp500_stocks()
     hurdle_rate = get_hurdle_rate()
@@ -113,3 +131,5 @@ def sp500_crawler():
 
     end_time = time.time()
     logging.info(f"Took {round(end_time-start_time, 3)} secs to execute.")
+
+    return 0

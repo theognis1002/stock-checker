@@ -14,7 +14,12 @@ PERCENT_CHANGE_THRESHOLD = config("PERCENT_CHANGE_THRESHOLD", default=5.0, cast=
 URL = "https://www.marketwatch.com/investing/fund/spy/download-data"
 
 
-def buy_the_dip():
+def buy_the_dip() -> int:
+    """Entrypoint function for "Buy The Dip" (BTD) script
+
+    Returns:
+        int: 0 indicating successful exit.
+    """
     res = requests.get(URL)
     soup = BeautifulSoup(res.text, "lxml")
     current_price = float(soup.find("bg-quote", {"field": "Last"}).text)
@@ -32,6 +37,8 @@ def buy_the_dip():
         logger.info(message)
         email = SendEmail()
         email.dispatch_simple_email(f"<h1>{message}</h1>", title=title)
+
+    return 0
 
 
 if __name__ == "__main__":
